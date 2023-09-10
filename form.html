@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="style.css">
+  </head>
+
+  <body>
+    <form id="myform" method="post" action="">
+      <h2>Happy Tails Hotel Login</h2>
+      <p><b>Receptionists's First Name:</b> &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="fname" name="fname" placeholder="Example: John"> 
+      <b style="color: red;">REQUIRED</b></p>
+      <p><b>Receptionist Last Name:</b> &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="lname" placeholder="Example: Doe"> 
+      <b style="color: red;">REQUIRED</b></p>
+      <p><b>Receptionist ID:</b> &nbsp; &nbsp;&nbsp;&nbsp; <input type="number" id="id" name="id" placeholder="Example: 123456">
+      <b style="color: red;">REQUIRED</b></p>
+      <p><b>Receptionist Password:</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="password" id="pass" placeholder=""> 
+      <b style="color: red;">REQUIRED</b></p>
+      <p><b>Receptionist Phone Number:</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="text" id="phone" placeholder="Example: 315-266-8567"> 
+      <b style="color: red;">REQUIRED</b></p>
+      <p><b>Receptionist Email:</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="text" id="mail" placeholder="Example: asd@asd.com"> 
+      <span id="required-email" style="display:none; color:red;">REQUIRED</span></p>
+      <input type="checkbox" id="confirm" onchange="toggleRequired()"><b>Check the box to request an Email Confirmation</b>
+      <br>
+      <p>
+        <label for="transaction_type">Transaction type:</label>
+        <select name="transaction_type" id="transaction_type">
+          <option value="">Select transaction type</option>
+          <option value="search">Search a Receptionsit's Account</option>
+          <option value="book">Book a Reservation</option>
+          <option value="request">Request Perks</option>
+          <option value="update_perks">Update perks</option>
+          <option value="cancel">Cancel a Reservation</option>
+          <option value="cancel_perks">Cancel perks</option>
+          <option value="create_account">Create a New Customer Account</option>
+        </select>
+      </p>
+      <input type="submit" value="Submit" id="submitBtn">
+    </form>
+
+<script>
+  const form = document.getElementById('myform');
+  const select = document.getElementById('transaction_type');
+
+  select.addEventListener('change', function() {
+    const selectedValue = select.value;
+
+    if (selectedValue === "search") { 
+      form.action = "search.php";
+    }
+    if (selectedValue === "book") {
+      form.action = "book.html";
+    }
+    if (selectedValue === "request") {
+      form.action = "request.html";
+    } 
+    if (selectedValue === "update_perks") {
+      form.action = "update.html";
+    }
+    if (selectedValue === "cancel") {
+      form.action = "cancel.html";
+    }
+    if (selectedValue === "cancel_perks") {
+      form.action = "cancel_perks.html";
+    }
+    if (selectedValue === "create_account") {
+      form.action = "create.html";
+    }
+  
+  });
+
+  function toggleRequired() {
+        
+         emailRequired.style.display = document.getElementById('confirm').checked ? 'inline' : 'none';
+      }
+
+  form.addEventListener('submit', function(e) {
+    const fname = document.getElementsByName('fname')[0].value;
+    const lname = document.getElementById('lname').value;
+    const id = document.getElementsByName('id')[0].value;
+    const pass = document.getElementById('pass').value;
+    const phone = document.getElementById('phone').value;
+    const mail = document.getElementById('mail').value;
+
+    const idRegex = /^\d{6}$/;
+    const phoneRegex = /^(\d{3}[ -]?){2}\d{4}$/;
+    const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,6}$/;
+    const passRegex = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[A-Z]).{1,14}$/;
+
+    if (!fname) {
+      alert('Please enter your first name');
+      e.preventDefault();
+      return;
+    }
+
+    if (!lname) {
+      alert('Please enter your last name');
+      e.preventDefault();
+      return;
+    }
+
+    if (!idRegex.test(id)) {
+      alert('Please enter a 6-digit ID number');
+      document.getElementsByName('id')[0].focus();
+      e.preventDefault();
+      return;
+    }
+
+    if (!passRegex.test(pass)) {
+      alert('Password must contain a max of 14 characters and have at least 1 uppercase letter, one special character and one numeric character');
+      document.getElementById('pass').focus();
+      e.preventDefault();
+      return;
+    }
+
+    if (!phoneRegex.test(phone)) {
+      alert('Please enter a 10-digit phone number with spaces or dashes in between');
+      document.getElementById('phone').focus();
+      e.preventDefault();
+      return;
+    }
+
+    if (!emailRegex.test(mail)) {
+      alert('Please enter a valid email address with an @ followed by a period and a domain consisting of 3 to 6 characters');
+      document.getElementById('mail').focus();
+      e.preventDefault();
+      return;
+    }
+
+  });
+
+</script>
+
+</body>
+</html>
+
